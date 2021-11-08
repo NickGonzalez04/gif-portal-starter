@@ -30,6 +30,9 @@
 .sub-text {
   font-size: 25px;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .gradient-text {
@@ -58,6 +61,15 @@
   animation: gradient-animation 4s ease infinite;
 }
 
+.connection-status{
+  display: inline-block;
+  margin: 1px 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #34d399;
+  }
+  
 .submit-gif-button {
   background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
   background-size: 200% 200%;
