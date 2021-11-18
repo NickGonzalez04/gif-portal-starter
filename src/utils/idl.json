@@ -1,86 +1,159 @@
 {
-    "version": "0.0.0",
-    "name": "gifprojectsol",
-    "instructions": [
-      {
-        "name": "startStuffOff",
-        "accounts": [
+  "version": "0.0.0",
+  "name": "gifprojectsol",
+  "instructions": [
+    {
+      "name": "initList",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "deleteList",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addNewGif",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gifLink",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "upVoteGif",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gifLink",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BaseAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "baseAccount",
-            "isMut": true,
-            "isSigner": true
+            "name": "bump",
+            "type": "u8"
           },
           {
-            "name": "user",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": []
-      },
-      {
-        "name": "addNewGif",
-        "accounts": [
-          {
-            "name": "baseAccount",
-            "isMut": true,
-            "isSigner": false
-          }
-        ],
-        "args": [
-          {
-            "name": "gifLink",
-            "type": "string"
+            "name": "gifList",
+            "type": {
+              "vec": {
+                "defined": "GifItem"
+              }
+            }
           }
         ]
       }
-    ],
-    "accounts": [
-      {
-        "name": "BaseAccount",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "totalGifs",
-              "type": "u64"
-            },
-            {
-              "name": "gifList",
-              "type": {
-                "vec": {
-                  "defined": "ItemStruct"
-                }
-              }
-            }
-          ]
-        }
-      }
-    ],
-    "types": [
-      {
-        "name": "ItemStruct",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "gifLink",
-              "type": "string"
-            },
-            {
-              "name": "userAddress",
-              "type": "publicKey"
-            }
-          ]
-        }
-      }
-    ],
-    "metadata": {
-      "address": "AV17oYk1DpdFkhioddypZhLWzxuTtSGAcJ2RbrETqFxP"
     }
+  ],
+  "types": [
+    {
+      "name": "GifItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gifLink",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "upvotes",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "NoGifFound",
+      "msg": "No Gif with that url"
+    }
+  ],
+  "metadata": {
+    "address": "H1XSeK4joK6pEF4sUd8oyBo53rhHpE7ARFpWN3uAr144"
   }
+}

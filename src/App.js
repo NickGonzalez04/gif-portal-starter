@@ -16,27 +16,6 @@ const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 
-
-
-// // SystemProgram is a reference to the Solana runtime!
-// const { SystemProgram, Keypair } = web3;
-
-// // Create a keypair for the account that will hold the GIF data.
-// let baseAccount = Keypair.generate();
-
-// // Get our program's id form the IDL file.
-// const programID = new PublicKey(idl.metadata.address);
-
-// // Set our network to devent.
-// const network = clusterApiUrl('devnet');
-
-// // Control's how we want to acknowledge when a trasnaction is "done".
-// const opts = {
-//   preflightCommitment: "processed"
-// }
-
-
-
 const useSolanaWallet = ()=> {
     const [solanaAcct, setSolanaAcct ] = useState('');
     const [ myGIFs, setMyGIFs] = useState([]);
@@ -64,7 +43,7 @@ const useSolanaWallet = ()=> {
     }
 
     const connectWallet = async()=> {
-      const { solana} = window;
+      const { solana } = window;
       if(solana) {
         const walletResponse = await solana.connect();
 
