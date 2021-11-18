@@ -34,18 +34,9 @@ const provider = new Provider(connection, window.solana, opts.preflightCommitmen
 // Get our program's id form the IDL file and sets as a new public key object.
 const programID = new PublicKey(idl.metadata.address);
 const program = new Program(idl, programID, provider);
-const listOwner = new PublicKey('fdTo1hM5rJFmkCQ2sFMBMGycnSGBVcz45XRaGfAkRAu');
+const listOwner = new PublicKey('DAVWbiHLK5yFJokRGAprXD27Zej9BrYwpERZTCffM25W');
 
 
-
-  const getBaseAcct = async () => {
-    let [account, bump] = await web3.PublicKey.findProgramAddress(
-      [new TextEncoder().encode("ngGif2"), 
-      listOwner.toBytes()],
-      program.programId
-    );
-    return { account, bump };
-  };
 
 
 const GifContainer = () => {
@@ -77,26 +68,43 @@ const GifContainer = () => {
     };
 
 
-const upVote = async (string) => {
-  try {
-  const { account } = await getBaseAcct();
-  console.log(program);
-    await program.rpc.upVoteGif(string, {
-      accounts: {
-        baseAccount: account,
-        listOwner,
-        user: provider.wallet.publicKey
-      },
-    });
-  } catch(error) {
-    console.log(error)
-  }
-};
-  
-    const getGifList = async () => {
+    const upVote = async (string) => {
+      try {
+          const { account } = await getBaseAcct();
+          // console.log(program);
+            await program.rpc.upVoteGif(string, {
+              accounts: {
+                baseAccount: account,
+                listOwner,
+                user: provider.wallet.publicKey
+              },
+            });
+            await getGifList();  
+          } catch(error) {
+            console.log(error)
+      }
+    };
+      
+  const getBaseAcct = async () => {
+    let [account, bump] = await web3.PublicKey.findProgramAddress(
+      [new TextEncoder().encode("ngGif3"), 
+      listOwner.toBytes()],
+      program.programId
+    );
+    try{
+      await getGifList(account);
+    } catch(error) {
+      if(/Account does not exist/.test(error.message)) {
+        await acctCreation(account, bump);
+      } else {
+        throw error;
+      }
+    }
+  };
+
+    const getGifList = async (account) => {
       try {
         const { account } = await getBaseAcct();
-        // const program = new Program(idl, programID, provider);
         const accountData = await program.account.baseAccount.fetch(account);
         console.log("Got the account", accountData.gifList);
         setMyGIFs(accountData.gifList);
@@ -107,10 +115,9 @@ const upVote = async (string) => {
     };
   
   
-      const acctCreation = async() => {
+      const acctCreation = async(account, bump) => {
       try {
-        const { account, bump } = await getBaseAcct();
-        // console.log(provider.wallet.publicKey)
+        // const { account, bump } = await getBaseAcct();
        await program.rpc.initList(bump, {
           accounts: {
             baseAccount: account,
@@ -122,7 +129,7 @@ const upVote = async (string) => {
           "Created a new BaseAccount w/ address:",
           account.toString()
         );
-        await getGifList();
+        await getGifList(account);
       } catch (error) {
         console.log("Error creating BaseAccount account:", error);
       }
@@ -132,9 +139,9 @@ const upVote = async (string) => {
     useEffect(() => {
       if (solanaAcct) {
         console.log('Getting GIF list...');
-        getGifList();
+        getBaseAcct()
+      } 
 
-      }
     }, [solanaAcct]);
   
     
