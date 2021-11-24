@@ -193,10 +193,9 @@ const transaction = new web3.Transaction().add(
     toPubKey: pubkey,
     lamports: web3.LAMPORTS_PER_SOL / 100,
   }));
-let {tx} = await window.solana.signAndSendTransaction(transaction, connection, [solanaAcct]).then(res => console.log(res)).catch(error => console.log(error));
+let tx = await web3.sendAndConfirmTransaction(transaction, connection, [solanaAcct]).then(res => console.log(res)).catch(error => console.log(error));
 console.log(tx);
-await connection.confirmTransaction(tx);
-
+// alert(`Tip tx ${tx}`);
 }
 
    return (
