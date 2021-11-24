@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
+import solanaLogo from './assets/solana-logo.png';
 import './App.css';
 import { SolanaWallet } from './utils/solanaContext';
 import WalletConnectButton from './components/walletbuttons';
@@ -17,13 +18,12 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 
 const useSolanaWallet = ()=> {
-    const [solanaAcct, setSolanaAcct ] = useState('');
+    const [ solanaAcct, setSolanaAcct ] = useState('');
     const [ myGIFs, setMyGIFs] = useState([]);
 
     const checkConnectedWallet = async() => {
         try{
           const { solana } = window;
-
           if(solana) {
             if (solana.isPhantom) {
               const walletResponse = await solana.connect({ onlyIfTrusted: true});
@@ -31,7 +31,7 @@ const useSolanaWallet = ()=> {
                 'Connected with pub key',
                 walletResponse.publicKey.toString()
               );
-              const walletKey =  walletResponse.publicKey.toString();
+              const walletKey = walletResponse.publicKey.toString();
               setSolanaAcct(walletKey);
             }
           } else {
@@ -55,7 +55,6 @@ const useSolanaWallet = ()=> {
       connectWallet();
     },[]);
 
-
     return { solanaAcct, myGIFs, setMyGIFs, checkConnectedWallet, connectWallet };
 }
 
@@ -65,8 +64,6 @@ const useSolanaWallet = ()=> {
 const App = () => {
 
   const solanaWallet = useSolanaWallet();
-
-
   const renderNotConnected = ()=>(
       <WalletConnectButton />
   );
@@ -80,9 +77,10 @@ const App = () => {
       <SolanaWallet.Provider value={solanaWallet}>
       <div className={solanaWallet ? 'authed-container' : 'container'}>
         <div className="header-container">
-          <p className="header">🖼 Not gifted, but I Got Gifs</p>
+          <p className="header">🖼 Not gifted, but I Got GIFs</p>
           <p className="sub-text">
-            View your GIF collection in the metaverse w/ Solana ✨
+            Best GIF collection in the metaverse w/
+            <img className="twitter-logo" src={solanaLogo} />
           </p>
           {!solanaWallet && renderNotConnected()}
           {SolanaWallet && renderConnectedContainer ()}

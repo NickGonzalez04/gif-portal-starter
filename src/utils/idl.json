@@ -100,6 +100,32 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "downVoteGif",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gifLink",
+          "type": "string"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -154,6 +180,6 @@
     }
   ],
   "metadata": {
-    "address": "G83cgWPVDznMbV2KS7j6fSrXNMPWwxfa8WhQC6oGdcbq"
+    "address": "9D52gsXrqC8RvaSVvmYXKVbnhhVSkVVJ2RGpEuRq9AVa"
   }
 }
